@@ -1,5 +1,6 @@
 import numpy as np
 import gpflow
+from matplotlib import pyplot as plt
 
 class PoE_GP():
 
