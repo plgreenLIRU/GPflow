@@ -32,7 +32,6 @@ from .util import maximum_log_likelihood_objective, training_loss, training_loss
 from .vgp import VGP, VGPOpperArchambeau
 
 __all__ = [
-    "auto_exclude",
     "BayesianGPLVM",
     "BayesianModel",
     "CGLB",
