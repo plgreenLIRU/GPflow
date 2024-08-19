@@ -67,7 +67,7 @@ class PoE_GP():
             X_new = self.experts[i].data[0][~to_remove]
             Y_new = self.experts[i].data[1][~to_remove]
 
-            #updated_expert = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]), kernel=self.experts[i].kernel, likelihood=self.experts[i].likelihood)
+            updated_expert = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]), kernel=self.experts[i].kernel, likelihood=self.experts[i].likelihood)
 
             if plots:
                 fig, ax = plt.subplots()
