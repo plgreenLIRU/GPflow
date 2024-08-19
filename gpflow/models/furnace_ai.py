@@ -18,7 +18,7 @@ class PoE_GP():
             loss += -self.experts[i].log_marginal_likelihood()
         return loss
 
-    def predict(self, X_star, N_star):
+    def predict_y(self, X_star, N_star):
 
         # Run all experts, collection their predictive means and
         # standard deviation
