@@ -15,7 +15,7 @@ def auto_exclude(gp):
 
     print("Removed", np.sum(to_remove), "data points")
 
-    return gp
+    return gp, to_remove
 
 class PoE_GP():
 
