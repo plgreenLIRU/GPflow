@@ -50,16 +50,15 @@ class PoE_GP():
 
         # Find generalised PoE GP predictive variance and standard
         # deviation
-        var_star = prec_star**-1
-        y_star_std = var_star**0.5
+        y_star_var = prec_star**-1
 
         # Find generalised PoE GP predictive mean
         y_star_mean = np.zeros(N_star)
         for i in range(self.N_experts):
             y_star_mean += beta[:, i] * sigma_all[:, i]**-2 * mu_all[:, i]
-        y_star_mean *= var_star
+        y_star_mean *= y_star_var
 
-        return y_star_mean, y_star_std, beta
+        return y_star_mean, y_star_var, beta
 
     def auto_exclude(self, plots=False):
         for i in range(self.N_experts):
@@ -68,7 +67,7 @@ class PoE_GP():
             X_new = self.experts[i].data[0][~to_remove]
             Y_new = self.experts[i].data[1][~to_remove]
 
-            updated_expert = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]), kernel=self.experts[i].kernel, likelihood=self.experts[i].likelihood)
+            #updated_expert = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]), kernel=self.experts[i].kernel, likelihood=self.experts[i].likelihood)
 
             if plots:
                 fig, ax = plt.subplots()
