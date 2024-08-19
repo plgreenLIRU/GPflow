@@ -2,6 +2,21 @@ import gpflow
 import numpy as np
 from matplotlib import pyplot as plt
 
+def auto_exclude(gp):
+
+    mu, var = gp.predict_y(gp.data[0])
+    to_remove = np.abs(mu - gp.data[1]) > 3 * np.sqrt(var)
+    X_new = gp.data[0][~to_remove[:, 0]]
+    Y_new = gp.data[1][~to_remove[:, 0]]
+
+    kernel, likelihood = gp.kernel, gp.likelihood
+    gp = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]),
+                           kernel=kernel, likelihood=likelihood)
+
+    print("Removed", np.sum(to_remove), "data points")
+
+    return gp
+
 class PoE_GP():
 
     def __init__(self):
@@ -59,23 +74,3 @@ class PoE_GP():
         y_star_mean *= y_star_var
 
         return y_star_mean, y_star_var, beta
-
-    def auto_exclude(self, plots=False):
-        for i in range(self.N_experts):
-            mu, var = self.experts[i].predict_y(self.experts[i].data[0])
-            to_remove = np.abs(mu.numpy() - self.experts[i].data[1]) > 3 * np.sqrt(var.numpy())
-            X_new = self.experts[i].data[0][~to_remove[:, 0]]
-            Y_new = self.experts[i].data[1][~to_remove[:, 0]]
-
-            updated_expert = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]), kernel=self.experts[i].kernel, likelihood=self.experts[i].likelihood)
-
-            if plots:
-                fig, ax = plt.subplots()
-                ax.plot(self.experts[i].data[0], self.experts[i].data[1], 'o')
-                ax.plot(self.experts[i].data[0][to_remove],
-                        self.experts[i].data[1][to_remove], 'o')
-                ax.plot(self.experts[i].data[0], mu, 'black')
-                ax.plot(self.experts[i].data[0], mu + 3 * np.sqrt(var), 'black')
-                ax.plot(self.experts[i].data[0], mu - 3 * np.sqrt(var), 'black')
-
-            self.experts[i] = updated_expert
