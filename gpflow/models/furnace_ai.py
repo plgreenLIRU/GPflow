@@ -10,7 +10,7 @@ def auto_exclude(gp):
     Y_new = gp.data[1][~to_remove[:, 0]]
 
     kernel, likelihood = gp.kernel, gp.likelihood
-    gp = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]),
+    gp = gpflow.models.GPR(data=(X_new, Y_new),
                            kernel=kernel, likelihood=likelihood)
 
     print("Removed", np.sum(to_remove), "data points")
