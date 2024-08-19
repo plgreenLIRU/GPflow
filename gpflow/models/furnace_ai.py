@@ -2,20 +2,6 @@ import gpflow
 import numpy as np
 from matplotlib import pyplot as plt
 
-def auto_exclude(gp):
-
-    mu, var = gp.predict_y(gp.data[0])
-    to_remove = np.abs(mu - gp.data[1]) > 3 * np.sqrt(var)
-    X_new = gp.data[0][~to_remove[:, 0]]
-    Y_new = gp.data[1][~to_remove[:, 0]]
-
-    kernel, likelihood = gp.kernel, gp.likelihood
-    gp = gpflow.models.GPR(data=(X_new, Y_new),
-                           kernel=kernel, likelihood=likelihood)
-
-    print("Removed", np.sum(to_remove), "data points")
-
-    return gp, to_remove
 
 class PoE_GP():
 
@@ -74,3 +60,14 @@ class PoE_GP():
         y_star_mean *= y_star_var
 
         return y_star_mean, y_star_var, beta
+
+    def auto_exclude(self, X_star, Y_star):
+
+        mu, var = self.predict_y(X_star)
+        to_remove = np.abs(mu - self.data[1]) > 3 * np.sqrt(var)
+
+        #kernel, likelihood = gp.kernel, gp.likelihood
+        #gp = gpflow.models.GPR(data=(X_new, Y_new),
+                                #kernel=kernel, likelihood=likelihood)
+
+        return to_remove
