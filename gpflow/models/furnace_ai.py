@@ -63,7 +63,7 @@ class PoE_GP():
 
     def auto_exclude(self, X_star, Y_star):
 
-        mu, var = self.predict_y(X_star)
+        mu, var = self.predict_y(X_star, N_star=len(Y_star))
         to_remove = np.abs(mu - self.data[1]) > 3 * np.sqrt(var)
 
         #kernel, likelihood = gp.kernel, gp.likelihood
