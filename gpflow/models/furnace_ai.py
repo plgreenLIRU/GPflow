@@ -61,13 +61,3 @@ class PoE_GP():
 
         return y_star_mean, y_star_var, beta
 
-    def auto_exclude(self, X_star, Y_star):
-
-        mu, var, beta = self.predict_y(X_star, N_star=len(Y_star))
-        to_remove = np.abs(mu - Y_star) > 3 * np.sqrt(var)
-
-        #kernel, likelihood = gp.kernel, gp.likelihood
-        #gp = gpflow.models.GPR(data=(X_new, Y_new),
-                                #kernel=kernel, likelihood=likelihood)
-
-        return to_remove
