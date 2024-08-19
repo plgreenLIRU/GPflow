@@ -66,6 +66,9 @@ class PoE_GP():
             to_remove = np.abs(mu.numpy() - self.experts[i].data[1]) > 3 * np.sqrt(var.numpy())
             X_new = self.experts[i].data[0][~to_remove]
             Y_new = self.experts[i].data[1][~to_remove]
+            
+            print(np.shape(X_new))
+            print(np.shape(Y_new))
 
             updated_expert = gpflow.models.GPR(data=(X_new[:, None], Y_new[:, None]), kernel=self.experts[i].kernel, likelihood=self.experts[i].likelihood)
 
