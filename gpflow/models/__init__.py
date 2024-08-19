@@ -53,7 +53,6 @@ __all__ = [
     "gpr",
     "maximum_log_likelihood_objective",
     "model",
-    "PoE_GP",
     "sgpmc",
     "sgpr",
     "svgp",
