@@ -1,7 +1,7 @@
 import gpflow
 import numpy as np
 from matplotlib import pyplot as plt
-
+import time
 
 class PoE_GP():
 
@@ -14,9 +14,12 @@ class PoE_GP():
         self.N_experts += 1
 
     def training_loss(self):
+        t0 = time.time()
         loss = 0
         for i in range(self.N_experts):
             loss += -self.experts[i].log_marginal_likelihood()
+        t = time.time() - t0
+        print("evaluation took ", t, " seconds")
         return loss
 
     def predict_y(self, X_star, N_star):
