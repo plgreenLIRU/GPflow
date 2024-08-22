@@ -26,7 +26,7 @@ class PoE_GP():
         mu_all = np.zeros([N_star, self.N_experts])
         sigma_all = np.zeros([N_star, self.N_experts])
         for i in range(self.N_experts):
-            mu, var = self.experts[i].predict_y(X_star[:, None])
+            mu, var = self.experts[i].predict_y(X_star)
             mu_all[:, i] = mu.numpy().flatten()
             sigma_all[:, i] = np.sqrt(var.numpy()).flatten()
 
